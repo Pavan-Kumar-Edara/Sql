@@ -1,0 +1,44 @@
+create database Flights;
+use Flights;
+
+create table Flight (
+  No int,
+  FlightNo varchar(20),
+  FromCity varchar(20),
+  ToCity varchar(20),
+  Distance int,
+  Seats int,
+  Frequency int,
+)
+
+insert  into FLIGHT  values (1,  'T1412', 'Blue Island','Yoyo Town', 1500, 210, 3);
+insert  into FLIGHT  values(2, 'A3242', 'Pikswka','Yoyo Town', 900, 170, 7 );
+insert  into FLIGHT  values(3, 'T1434','Permila','Pikswaka', 1000, 210, 7);
+insert  into FLIGHT  values(4, 'C3120', 'Ketty Island','Blue Island', 1200, 120, 4);
+insert  into FLIGHT  values(5,  'T1418','Jaswaka','Perimila',  500, 120, 3);
+insert  into FLIGHT  values(6, 'C3120', 'Pikswka','Archie Island', 1000, 170, 4);
+insert  into FLIGHT  values(7, 'A3232','Harappan Valley', 'Ketty Island', 900, 210, 1);
+insert  into FLIGHT  values(8, 'T1432', 'Blue Island', 'Harappan Valley',1200, 120, 2);
+insert  into FLIGHT  values(9, 'T1618','Mumsui','Blue Island', 1200, 210, 4)
+
+select * from Flight;
+
+--a
+Select FlightNo from Flight where Frequency > 4;
+
+--b
+Select FlightNo, FromCity, ToCity from Flight where FromCity = 'Blue Island' or ToCity = 'Blue Island';
+
+--c
+Select FlightNo, Seats from Flight where Seats > 140;
+
+--d
+Select FlightNo, Frequency, Distance from Flight where Distance > 900;
+
+--e
+Select FlightNo from Flight where Frequency = 7 and Seats < 180;
+
+--f
+insert into Flight values(9, 'T1618', 'Mumsu', 'Blue Island', 1200, 210, 4);
+
+Drop table Flight;
