@@ -1,0 +1,44 @@
+create database BooksIssued;
+use BooksIssued;
+
+create table Books(
+Bookid varchar(20),
+BookName varchar(20),
+AuthorName varchar(20),
+Publishers varchar(20),
+Price int,
+Typeofbook varchar(20),
+Qty int
+);
+
+insert into Books values ('C0001','fastcook','latakapoor','epb',355,'cookery',5);
+insert into Books values ('F00001','thetears','williamhopkins','firstpubl',650,'fiction',20);
+insert into Books values ('T0001','myfirstc++','brainandbrook','epb',350,'text',10)
+insert into Books values ('T0002','c++brainworks','awrossaine','tdh',350,'text',15);
+insert into Books values ('F0002','thunderbolts','annaroberts','firstpubl',750,'fiction',50);
+
+select *from Books;
+
+
+create table Issued(
+BookId varchar(20),
+QuantityIssued int
+);
+
+insert into Issued values('T0001',4);
+insert into Issued values('C0001',5);
+insert into Issued values('F0001',2);
+
+select *from Issued;
+
+--a
+select Books.BookName,Books.AuthorName,Books.Price,Books.Publishers,Issued.QuantityIssued from Books left outer join Issued on Books.Bookid=Issued.BookId;
+ 
+--b
+ select Books.BookName from Books left outer join Issued on  Books.Bookid=Issued.BookId where Books.Typeofbook='text';
+
+--c
+select BookName,Price from Books  order by Price ASC ;
+
+--d
+update Books set Price =Price + 50 where  Publishers='epb';
