@@ -1,0 +1,44 @@
+create database Garments;
+use Garments;
+
+create table Garment(
+Gcode int ,
+DescriptionThing varchar(30),
+Price int,
+Fcode varchar(20),
+ReadyDate date
+);
+
+insert into Garment values(10023,'pencilskirt',1150,'F03','2010-12-19');
+insert into Garment values(10001,'formalshirt',1250,'F01','2010-01-12');
+insert into Garment values(10012,'informalshirt',1550,'F02','2010-01-6');
+insert into Garment values(10024,'babytop',750,'F03','2007-04-09');
+insert into Garment values(10090,'tulipskirt',850,'F02','2009-03-31');
+insert into Garment values(10019,'eveninggown',850,'F03','2010-06-06');
+insert into Garment values(10009,'informalpant',1500,'F02','2010-09-20');
+insert into Garment values(10017,'formatpant',1350,'F01','2009-03-09');
+insert into Garment values(10020,'frock',850,'F04','2009-08-09');
+insert into Garment values(10089,'slacks',750,'F03','2010-09-31');
+
+select * from Garment;
+
+create table Fabric(
+Fcode varchar(20),
+TypeOfFabric varchar(20)
+);
+
+insert into Fabric values ('F04','polyster');
+insert into Fabric values ('F02','cotton');
+insert into Fabric values ('F03','slik');
+insert into Fabric values ('F01','terelene');
+
+select * from Fabric;
+
+--a
+select * from Garment where ReadyDate between '2009-12-08' and '2010-06-16';
+
+--b
+select max(Price) from Garment join Fabric on Garment.Fcode=Fabric.Fcode;
+
+--c
+select Garment.Gcode,Garment.DescriptionThing,Fabric.TypeOfFabric from Garment join Fabric on Garment.Fcode=Fabric.Fcode;
