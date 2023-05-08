@@ -38,7 +38,7 @@ select * from Fabric;
 select * from Garment where ReadyDate between '2009-12-08' and '2010-06-16';
 
 --b
-select max(Price) from Garment join Fabric on Garment.Fcode=Fabric.Fcode;
+select max(Price) as highestPrice, min(Price) as LowestPrice, Fcode from Garment;
 
 --c
 select Garment.Gcode,Garment.DescriptionThing,Fabric.TypeOfFabric from Garment join Fabric on Garment.Fcode=Fabric.Fcode;
