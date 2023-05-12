@@ -1,0 +1,46 @@
+
+--To Insert
+create proc ToInsert
+@Bookid varchar(20),
+@BookName varchar(20),
+@AuthorName varchar(20),
+@Publishers varchar(20),
+@Price int,
+@Typeofbook varchar(20),
+@Qty int
+as
+begin
+insert Books values(@Bookid,@BookName,@AuthorName,@Publishers,@Price,@Typeofbook,@Qty)
+end
+
+exec ToInsert 'T0005','Journey','Rohit','ab',450,'text',15;
+
+select * from books;
+
+
+--to update
+create proc ToUpdate
+@BookName varchar(20),
+@Typeofbook varchar(20)
+as
+Begin
+update Books set Typeofbook=@Typeofbook where BookName=@BookName
+End
+
+exec ToUpdate 'thetears','cookery';
+
+select * from books;
+
+
+
+--to delete
+create proc ToDelete
+@AuthorName varchar(20)
+as
+Begin
+delete from Books where AuthorName=@AuthorName
+End
+
+exec ToDelete 'Pavan'
+
+select * from books;
