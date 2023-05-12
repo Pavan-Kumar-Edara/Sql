@@ -1,0 +1,11 @@
+create trigger trigger_to_update
+on Books
+for update
+as
+begin
+    IF UPDATE(BookName) 
+    BEGIN
+        PRINT 'Updated'
+    END
+END
+update Books set BookName='xyz' where Bookid='T0002';
