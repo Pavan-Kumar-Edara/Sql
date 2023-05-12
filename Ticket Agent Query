@@ -1,0 +1,102 @@
+create database TicketAgentDetails
+use TicketAgentDetails 
+
+create table TicketDetails(
+	Tcode varchar(20) primary key,
+	TName varchar(20),
+	Tickets int,
+	Acode varchar(20)
+);
+
+insert into TicketDetails values ('S001','Menna',7,'A01');
+insert into TicketDetails values ('S002','Vani',5,'A02');
+insert into TicketDetails values ('S003','Menna',9,'A01');
+insert into TicketDetails values ('S004','Karish',2,'A03');
+insert into TicketDetails values ('S005','Suraj',1,'A02');
+
+select * from TicketDetails;
+
+
+create table AgentDetails(
+	Acode varchar(20) primary key,
+	AName varchar(20)
+);
+insert into AgentDetails values('A01','Mr.Robin');
+insert into AgentDetails values('A02','Mr.Ayush');
+insert into AgentDetails values('A03','Mr.Trilok');
+insert into AgentDetails values('A04','Mr.John');
+
+select * from AgentDetails;
+
+--i
+select T.Tcode,T.TName,A.AName from TicketDetails T join AgentDetails A on T.Acode=A.Acode where T.Tickets>5;
+
+--ii
+select sum(T.Tickets) as TotalTickets,A.AName from TicketDetails T join AgentDetails A on T.Acode=A.Acode group by A.AName having A.AName='Mr.Ayush';
+
+--iii
+select A.Acode,A.AName,T.Tcode from TicketDetails T join AgentDetails A on T.Acode=A.Acode where A.AName like '%k';
+
+--iv create a trigger where data should be inserted in AgentDetails where Ticketdetails table get updated based ACode
+create trigger insertAgent
+on ticketdetails
+for update
+as
+begin
+    insert into AgentDetails (Acode, AName)
+    Select Acode, Name
+    from updated
+end;
+
+update from TicketDetails set Acode='A07' where TName='Menna';
+select * from AgentDetails;
+select * from TicketDetails;
+
+--v) create a trigger where data should be inserted in AgentDetails where Ticketdetails any record gets deleted
+create trigger InsertAgentOnDelete
+on ticketdetails
+for delete
+as
+begin
+    insert into AgentDetails(Acode, AName)
+    select Acode, Name from deleted
+end;
+delete from ticketdetails where Tcode='S002';
+
+
+--Vi
+create trigger Tgr_delete
+on AgentDetails
+for delete
+as
+begin
+Rollback
+print 'Cannot be deleted'
+end
+
+delete from AgentDetails where Acode='A03'
+
+create trigger Tgr_delete_two
+on TicketDetails
+for delete
+as
+begin
+Rollback
+print 'Cannot be deleted'
+end
+
+delete from TicketDetails where Tcode='S005'
+
+--vii
+Begin TRANSACTION;
+update agentdetails
+set AName = 'EampleName'
+WHERE Acode = 'A04';
+
+IF ROW_COUNT() > 0 THEN
+    SELECT 'Changes committed.';
+    COMMIT;
+ELSE
+    SELECT 'Rolling back changes.';
+    ROLLBACK;
+COMMIT
