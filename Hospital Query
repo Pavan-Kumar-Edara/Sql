@@ -1,0 +1,83 @@
+create database Hospital
+use Hospital
+
+create table HospitalDetails
+(
+pno int primary key,
+patientname varchar(20),
+age int,
+department varchar(20),
+dateofadm date,
+charges numeric(7,2),
+sex char
+)
+
+insert into HospitalDetails values (1,'arprit',62,'surgery','1998-01-12',300,'m');
+insert into HospitalDetails values (2,'zanna',22,'ent','1997-12-12',250,'f')
+insert into HospitalDetails values (3,'kareem',32,'orthopedic','1998-02-19',200,'m')
+insert into HospitalDetails values (4,'arun',12,'surgery','1998-01-11',300,'m')
+insert into HospitalDetails values (5,'zubin',30,'ent','1998-01-12',250,'m')
+insert into HospitalDetails values (6,'ketaki',16,'ent','1998-02-24',250,'f')
+insert into HospitalDetails values (7,'ankita',29,'cardiology','1998-02-20',800,'f')
+insert into HospitalDetails values (8,'zareen',45,'gynaecologist','1998-02-22',300,'f')
+insert into HospitalDetails values (9,'kush',19,'cardiology','1998-01-13',800,'m')
+insert into HospitalDetails values (10,'shilpa',23,'nuclearmedicine','1998-01-20',400,'f')
+
+
+select *from HospitalDetails;
+
+
+---1
+create index dateofadmt on HospitalDetails(dateofadm);
+
+--2
+create unique index UniqueIndexforname on HospitalDetails(patientname);
+
+--3
+select CONCAT(patientname,' of age ',age,' got admitted on ',dateofadm) as string from HospitalDetails;
+
+
+--4
+alter table dbo.HospitalDetails
+add patientaddress char(20);
+
+
+--5
+alter table HospitalDetails alter column  patientaddress char(25);
+
+
+--6
+alter table HospitalDetails alter column patientaddress varchar(25);
+
+
+--7
+Exec sp_rename 'HospitalDetails.patientaddress','HospitalDetails.homeaddress'
+
+--8
+alter table HospitalDetails drop column homeaddress;
+
+select *from HospitalDetails;
+
+
+--9
+alter table  HospitalDetails drop column HomeAddress
+
+
+--10
+update HospitalDetails
+set age=30
+where pno=7;
+
+
+--11
+alter table HospitalDetails drop index PK_Hospital_DD37C1492D430BED;
+DROP INDEX PK_Hospital_DD37C1492D430BED ON HospitalDetails;
+
+--12
+select count(pno) as Totalpatient,department from HospitalDetails group by department;
+
+--13
+delete from HospitalDetails;
+
+--14
+drop table HospitalDetails;
