@@ -1,0 +1,128 @@
+create database EmployeeDetails;
+use EmployeeDetails;
+
+create table Employee(
+   Eno int primary key,
+   Ename varchar(20),
+   job varchar(20),
+   Mgr int,
+   Hiredate date,
+   sal int,
+   comm int,
+   dept int,
+);
+
+insert into Employee values(8369,'Smith','CLERK',8902,'1990-12-18',800,null,20);
+insert into Employee values(8499,'Anya','SALESMAN',8698,'1991-02-20',1600,300,30);
+insert into Employee values(8521,'Seth','SALESMAN',8698,'1991-02-22',1250,500,30);
+insert into Employee values(8566,'Mahadevan','MANAGER',8839,'1991-04-02',2985,null,20);
+insert into Employee values(8654,'Momin','SALESMAN',8698,'1991-09-28',1250,1400,30);
+insert into Employee values(8698,'Bina','MANAGER',8839,'1991-05-01',2850,null,30);
+insert into Employee values(8882,'Shiavnsh','MANAGER',8839,'1991-06-09',2450,null,10);
+insert into Employee values(8888,'Scott','ANALYST',8566,'1992-12-09',3000,null,20);
+insert into Employee values(8839,'Amir','PRESIDENT',null,'1991-11-18',5000,null,10);
+insert into Employee values(8844,'Kuldeep','SALESMAN',8698,'1991-09-08',1500,0,30);
+insert into Employee values(8886,'Anoop','CLERK',8888,'1993-01-12',1100,null,20);
+insert into Employee values(8100,'Yash','ANALYST',null,'2003-05-03',6000,null,30);
+insert into Employee values(8900,'Jatin','CLERK',8698,'1991-12-03',950,3600,20);
+insert into Employee values(8902,'Fakir','ANALYST',8566,'1992-12-03',3500,null,10);
+
+select * from Employee;
+
+--1. Display details of all the employees from Employee table.
+create function udfDisplayDetails()
+Returns table
+return (select * from Employee)
+
+select * from udfDisplayDetails();
+
+--2. Add a new record to Employee table.
+     --8088, 'Ramesh', 'CLERK', 8789, '2022-08-09', 4500.00, NULL, 10
+create function udfAddRecord(@Eno int,
+   @Ename varchar(20),
+   @job varchar(20),
+   @Mgr int,
+   @Hiredate date,
+   @sal int,
+   @comm int,
+   @dept int)
+Returns int
+AS
+Begin
+declare @table table (Eno int,
+   Ename varchar(20),
+   job varchar(20),
+   Mgr int,
+   Hiredate date,
+   sal int,
+   comm int,
+   dept int)
+Insert into @table values (@Eno,@Ename,@job,@Mgr,@Hiredate,@sal,@comm,@dept)
+return Scope_Identity();
+End
+
+select * from Employee;
+select dbo.udfAddRecord(8088,'Ramesh','CLERK',8789,'2022-08-09',4500,Null,10) from Employee;
+
+
+
+--3. Count the number of records in Employee table.
+create function udfCountRecords()
+Returns int
+As
+Begin
+declare @countValue int
+select
+@countValue = count(*) from Employee
+return @countValue
+End
+
+select dbo.udfCountRecords() as NoOfRecords;
+
+--select count(*) from Employee;
+
+
+
+--4. Search the details of those employees who work in deptno 30.
+create function udfDetailsOfDept()
+Returns table
+return (select * from Employee where dept=30)
+
+select Ename,dept from udfDetailsOfDept();
+
+--5. Sort the records in Employee table.
+create function udfToSort()
+Returns table
+return (select * from Employee order by(sal))
+
+--select * from Employee order by(sal);
+drop function udfToSort;
+
+--6. Update the salary of the last inserted record to 500.
+create function ToUpdateSalary()
+returns varchar(20)
+as
+begin
+    update UpdatedEmployee
+    set salary = 200
+    where empno = 8499;
+	return 'completed'
+end
+
+SELECT dbo.UpdateSalary()
+
+--UPDATE Employee SET sal = 500 WHERE Eno = (SELECT MAX(Eno) FROM Employee);
+
+
+--7. Delete the last inserted record. (edited)
+create function GetLastInsertedEmployeeId()
+returns int
+AS
+BEGIN
+    DECLARE @EmployeeId INT
+    SELECT @EmployeeId = MAX(empno) FROM UpdatedEmployee
+    RETURN @EmployeeId
+END
+
+DELETE FROM UpdatedEmployee WHERE empno = GetLastInsertedEmployeeId();
+--Delete from Employee where Eno=(SELECT MAX(Eno) FROM Employee);
