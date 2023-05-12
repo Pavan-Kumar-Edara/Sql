@@ -1,0 +1,6 @@
+--trigger with after
+CREATE TRIGGER insert_order_history
+AFTER INSERT ON Books
+FOR EACH ROW
+INSERT INTO Books (price, Qty)
+VALUES (NEW.price,NEW.Qty);
