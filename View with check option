@@ -1,0 +1,11 @@
+--view with check option
+create view ForCheckoption
+as
+select Price from Books where BookName='fastcook'
+with check option;
+
+INSERT INTO Books (price,BookName)
+VALUES (50,'Finance');
+
+INSERT INTO Books (price,BookName)
+VALUES (50,'fastcook');
